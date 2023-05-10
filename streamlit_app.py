@@ -1,6 +1,5 @@
 from dotenv import load_dotenv
 
-
 import streamlit as st
 from streamlit_chat import message
 from streamlit_extras.colored_header import colored_header
@@ -15,19 +14,15 @@ from langchain.schema import (
     AIMessage
 )
 
-
 load_dotenv()
 
-
 st.set_page_config(page_title="Staples Chat")
-
 
 with st.sidebar:
     st.title('Staples Chat')
     add_vertical_space(2)
     st.write(
         'Made by [Austin Johnson](<https://github.com/AustonianTX>)')
-
 
 if 'messages' not in st.session_state:
     st.session_state['messages'] = [
@@ -40,41 +35,31 @@ st.write(st.session_state)
 input_container = st.container()
 colored_header(label='', description='', color_name='blue-30')
 response_container = st.container()
-
+input_container_bottom = st.container()
 
 chat = ChatOpenAI(
     temperature=0.5
 )
 
-
 # User input
-# Function for taking user provided prompt as input
 
 
 def submit_text():
     st.session_state.text_input = st.session_state.prompt_input
     st.session_state.prompt_input = ""
 
-
 # Response output
-# Function for taking user prompt as input followed by producing AI generated responses
+
+
 def generate_response(prompt):
 
     ai_response = chat(st.session_state['messages'])
 
     return ai_response.content
 
-    # Applying the user input box
-with input_container:
 
-    if "text_input" not in st.session_state:
-        st.session_state["text_input"] = ""
-
-    st.text_input('STUFF', key='prompt_input', on_change=submit_text)
-
-# Conditional display of AI generated responses as a function of user provided prompts
 with response_container:
-    if st.session_state.text_input:
+    if "text_input" in st.session_state:
         prompt = st.session_state.text_input
         st.session_state['messages'].append(
             HumanMessage(content=prompt)
@@ -93,3 +78,9 @@ with response_container:
 
         message(response, is_user=False, key=str(
             len(st.session_state['messages'])))
+
+with input_container_bottom:
+    if "text_input" not in st.session_state:
+        st.session_state["text_input"] = ""
+
+    st.text_input('YOU: ', key='prompt_input', on_change=submit_text)
