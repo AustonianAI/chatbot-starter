@@ -1,4 +1,6 @@
 streamlit
-hugchat
 streamlit-chat
 streamlit-extras
+python-dotenv
+lanchain
+openai

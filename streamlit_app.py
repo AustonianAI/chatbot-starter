@@ -1,70 +1,95 @@
+from dotenv import load_dotenv
+
+
 import streamlit as st
 from streamlit_chat import message
 from streamlit_extras.colored_header import colored_header
 from streamlit_extras.add_vertical_space import add_vertical_space
 
-from hugchat import hugchat
+from langchain.chat_models import ChatOpenAI
+from langchain.chains import ConversationChain
+from langchain.memory import ConversationBufferMemory
+from langchain.schema import (
+    SystemMessage,
+    HumanMessage,
+    AIMessage
+)
+
+
+load_dotenv()
 
 
 st.set_page_config(page_title="Staples Chat")
 
 
 with st.sidebar:
-    st.title('🤗💬 Staples Chat')
-    st.markdown('''
-    ## About
-    This app is an LLM-powered chatbot built using:
-    - [Streamlit](<https://streamlit.io/>)
-    - [HugChat](<https://github.com/Soulter/hugging-chat-api>)
-    - [OpenAssistant/oasst-sft-6-llama-30b-xor](<https://huggingface.co/OpenAssistant/oasst-sft-6-llama-30b-xor>) LLM model
-    
-    💡 Note: No API key required!
-    ''')
-    add_vertical_space(5)
+    st.title('Staples Chat')
+    add_vertical_space(2)
     st.write(
-        'Made with ❤️ by [Data Professor](<https://youtube.com/dataprofessor>)')
+        'Made by [Austin Johnson](<https://github.com/AustonianTX>)')
 
-if 'generated' not in st.session_state:
-    st.session_state['generated'] = ["I'm HugChat, How may I help you?"]
 
-if 'past' not in st.session_state:
-    st.session_state['past'] = ['Hi!']
+if 'messages' not in st.session_state:
+    st.session_state['messages'] = [
+        SystemMessage(
+            content="You are a pirate.  Always answer the in form of a pirate.")
+    ]
+
+st.write(st.session_state)
 
 input_container = st.container()
 colored_header(label='', description='', color_name='blue-30')
 response_container = st.container()
 
+
+chat = ChatOpenAI(
+    temperature=0.5
+)
+
+
 # User input
 # Function for taking user provided prompt as input
 
 
-def get_text():
-    input_text = st.text_input("You: ", "", key="input")
-    return input_text
-
-
-# Applying the user input box
-with input_container:
-    user_input = get_text()
+def submit_text():
+    st.session_state.text_input = st.session_state.prompt_input
+    st.session_state.prompt_input = ""
 
 
 # Response output
 # Function for taking user prompt as input followed by producing AI generated responses
 def generate_response(prompt):
-    chatbot = hugchat.ChatBot()
-    response = chatbot.chat(prompt)
-    return response
 
+    ai_response = chat(st.session_state['messages'])
+
+    return ai_response.content
+
+    # Applying the user input box
+with input_container:
+
+    if "text_input" not in st.session_state:
+        st.session_state["text_input"] = ""
+
+    st.text_input('STUFF', key='prompt_input', on_change=submit_text)
 
 # Conditional display of AI generated responses as a function of user provided prompts
 with response_container:
-    if user_input:
-        response = generate_response(user_input)
-        st.session_state.past.append(user_input)
-        st.session_state.generated.append(response)
+    if st.session_state.text_input:
+        prompt = st.session_state.text_input
+        st.session_state['messages'].append(
+            HumanMessage(content=prompt)
+        )
 
-    if st.session_state['generated']:
-        for i in range(len(st.session_state['generated'])):
-            message(st.session_state['past'][i],
-                    is_user=True, key=str(i) + '_user')
-            message(st.session_state['generated'][i], key=str(i))
+        for i, message_obj in enumerate(st.session_state['messages'][1:], start=1):
+            is_user_message = isinstance(message_obj, HumanMessage)
+            text = message_obj.content
+
+            message(text, is_user=is_user_message, key=str(i))
+
+        response = generate_response(prompt)
+
+        st.session_state['messages'].append(
+            AIMessage(content=response))
+
+        message(response, is_user=False, key=str(
+            len(st.session_state['messages'])))
