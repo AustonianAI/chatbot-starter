@@ -12,6 +12,10 @@ The chatbot is a demonstration of integrating OpenAI's GPT model, LangChain libr
 - **OpenAI's GPT:** A state-of-the-art language processing AI model that generates the chatbot's responses.
 - **LangChain:** A wrapper library for the ChatGPT model that helps manage conversation history and structure the model's responses.
 
+## Demo App
+
+[![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://chatbot-starter.streamlit.app/)
+
 ## How to Run
 
 ### Prerequisites
