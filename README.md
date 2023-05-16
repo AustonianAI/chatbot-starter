@@ -1,10 +1,10 @@
 # ChatBot Starter with Streamlit, OpenAI, and LangChain
 
-This repository contains a simple but powerful chatbot built with Streamlit, OpenAI, and LangChain. The chatbot maintains conversational memory, meaning it can reference past exchanges in its responses.
+This repository contains a simple yet powerful chatbot built with Streamlit, OpenAI, and LangChain. The chatbot maintains conversational memory, meaning it can reference past exchanges in its responses.
 
 ## Overview
 
-The chatbot is a demonstration of integrating OpenAI's GPT model, LangChain library, and Streamlit for creating interactive web applications. The bot's conversational memory allows it to maintain context during the chat session, leading to a more coherent and engaging user experience.
+The chatbot is a demonstration of integrating OpenAI's GPT model, the LangChain library, and Streamlit for creating interactive web applications. The bot's conversational memory allows it to maintain context during the chat session, leading to a more coherent and engaging user experience. Importantly, this feature-rich chatbot application is implemented in less than 40 lines of code (excluding whitespace and comments)!
 
 ### Key Features
 
