@@ -1,6 +1,5 @@
 streamlit
 streamlit-chat
-streamlit-extras
 python-dotenv
 lanchain
 openai
