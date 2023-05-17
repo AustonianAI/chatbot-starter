@@ -38,7 +38,7 @@ The chatbot starts with a system message that sets the tone for the conversation
 
 ## Contribution
 
-Contributions, issues, and feature requests are welcome. Feel free to check the [Issues](https://github.com/AustonianAI/ChatBot_Starter/issues) page if you want to contribute.
+Contributions, issues, and feature requests are welcome. Feel free to check the [Issues](https://github.com/AustonianAI/chatbot-starter/issues) page if you want to contribute.
 
 ## License
 
