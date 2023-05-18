@@ -30,7 +30,7 @@ The chatbot is a demonstration of integrating OpenAI's GPT model, the LangChain 
 1. Clone this repository.
 2. Install the necessary Python packages using the command `pip install -r requirements.txt`.
 3. Set the environment variable for your OpenAI API key.
-4. Run the Streamlit app using the command `streamlit run app.py`.
+4. Run the Streamlit app using the command `streamlit run streamlit_app.py`.
 
 ## Usage
 
